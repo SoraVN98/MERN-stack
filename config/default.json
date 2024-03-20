@@ -1,4 +1,6 @@
 {
     "mongoURI": "mongodb+srv://DoanTrongBinh:mofl1998@doantrongbinh.bfben69.mongodb.net/?retryWrites=true&w=majority&appName=DoanTrongBinh",
-    "jwtSecret": "mysecrettoken"
+    "jwtSecret": "mysecrettoken",
+    "githubClientId" : "b001788daca0bbde3d25",
+    "githubSecret" : "5e53f54bd3f4fbc69af3b124aaefb72bb1ae2722"
 }
