@@ -6,6 +6,7 @@ const config = require('config');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 const { check, validationResult } = require('express-validator');
 
@@ -139,7 +140,7 @@ router.get('/user/:user_id', async (req, res) => {
     if (err.kind == 'ObjectId') {
       return res.status(400).json({ msg: 'Profile not found' });
     }
-    res.status(500).send('Server Error')
+    res.status(500).send('Server Error');
   }
 });
 
@@ -148,13 +149,13 @@ router.get('/user/:user_id', async (req, res) => {
 // @access Private
 router.delete('/', auth, async (req, res) => {
   try {
-    // @todo - remove users posts
-
+    // Remove users posts
+    await Post.deleteMany({ user: req.user.id });
     // Remove profile
     await Profile.findOneAndDelete({ user: req.user.id });
 
     // Remose user
-    await Profile.findOneAndDelete({ _id: req.user.id });
+    await User.findOneAndDelete({ _id: req.user.id });
 
     res.json({ msg: 'User deleted' });
   } catch (err) {
@@ -293,7 +294,7 @@ router.get('/github/:username', (req, res) => {
       }
 
       if (response.statusCode !== 200) {
-       return res.status(404).json({ msg: 'No github profile found' });
+        return res.status(404).json({ msg: 'No github profile found' });
       }
 
       res.json(JSON.parse(body));
